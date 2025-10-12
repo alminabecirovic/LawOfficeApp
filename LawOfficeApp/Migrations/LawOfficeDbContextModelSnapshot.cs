@@ -22,31 +22,6 @@ namespace LawOfficeApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LawOfficeApp.Models.Advokat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Advokati");
-                });
-
             modelBuilder.Entity("LawOfficeApp.Models.Case", b =>
                 {
                     b.Property<int>("Id")
@@ -55,55 +30,42 @@ namespace LawOfficeApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AdvokatId")
+                    b.Property<string>("CaseTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Deadline")
+                    b.Property<DateTime?>("ClosingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
+                    b.Property<decimal>("CostsSoFar")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DeadlineDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LawyerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OpeningDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdvokatId");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Slucajevi");
-                });
+                    b.HasIndex("LawyerId");
 
-            modelBuilder.Entity("LawOfficeApp.Models.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContactInfo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Klijenti");
+                    b.ToTable("Cases");
                 });
 
             modelBuilder.Entity("LawOfficeApp.Models.Document", b =>
@@ -120,11 +82,18 @@ namespace LawOfficeApp.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Importance")
+                    b.Property<string>("DocumentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Importance")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -132,7 +101,7 @@ namespace LawOfficeApp.Migrations
 
                     b.HasIndex("CaseId");
 
-                    b.ToTable("Dokumenti");
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("LawOfficeApp.Models.Invoice", b =>
@@ -146,48 +115,131 @@ namespace LawOfficeApp.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CaseId")
+                    b.Property<int>("CaseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<string>("InvoiceNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Paid")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
 
-                    b.HasIndex("ClientId");
-
                     b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("LawOfficeApp.Models.Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonType")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Person");
+
+                    b.HasDiscriminator<string>("PersonType").HasValue("Person");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("LawOfficeApp.Models.Client", b =>
+                {
+                    b.HasBaseType("LawOfficeApp.Models.Person");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Organization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Client");
+                });
+
+            modelBuilder.Entity("LawOfficeApp.Models.Lawyer", b =>
+                {
+                    b.HasBaseType("LawOfficeApp.Models.Person");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Lawyer");
                 });
 
             modelBuilder.Entity("LawOfficeApp.Models.Case", b =>
                 {
-                    b.HasOne("LawOfficeApp.Models.Advokat", null)
-                        .WithMany("ActiveCases")
-                        .HasForeignKey("AdvokatId");
-
                     b.HasOne("LawOfficeApp.Models.Client", "Client")
-                        .WithMany()
+                        .WithMany("Cases")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LawOfficeApp.Models.Lawyer", "Lawyer")
+                        .WithMany("ActiveCases")
+                        .HasForeignKey("LawyerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Client");
+
+                    b.Navigation("Lawyer");
                 });
 
             modelBuilder.Entity("LawOfficeApp.Models.Document", b =>
                 {
-                    b.HasOne("LawOfficeApp.Models.Case", null)
+                    b.HasOne("LawOfficeApp.Models.Case", "Case")
                         .WithMany("Documents")
                         .HasForeignKey("CaseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Case");
                 });
 
             modelBuilder.Entity("LawOfficeApp.Models.Invoice", b =>
@@ -195,26 +247,25 @@ namespace LawOfficeApp.Migrations
                     b.HasOne("LawOfficeApp.Models.Case", "Case")
                         .WithMany()
                         .HasForeignKey("CaseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("LawOfficeApp.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Case");
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("LawOfficeApp.Models.Advokat", b =>
-                {
-                    b.Navigation("ActiveCases");
                 });
 
             modelBuilder.Entity("LawOfficeApp.Models.Case", b =>
                 {
                     b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("LawOfficeApp.Models.Client", b =>
+                {
+                    b.Navigation("Cases");
+                });
+
+            modelBuilder.Entity("LawOfficeApp.Models.Lawyer", b =>
+                {
+                    b.Navigation("ActiveCases");
                 });
 #pragma warning restore 612, 618
         }

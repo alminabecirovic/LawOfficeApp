@@ -1,28 +1,38 @@
-﻿using System;
+﻿// ============ MODELS/CASE.CS ============
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace LawOfficeApp.Models
 {
+    // Case Status Enumeration
+    public enum CaseStatus
+    {
+        Active,
+        Trial,
+        Resolved,
+        Rejected,
+        OnHold
+    }
+
+    // Case class
     public class Case
     {
+        [Key]
         public int Id { get; set; }
-        public string Title { get; set; } = "";
-        public string Status { get; set; } = "Open";
-        public DateTime Deadline { get; set; } = DateTime.Now.AddDays(30);
-        public Client? Client { get; set; }
-        public List<Document> Documents { get; set; } = new();
-
-        public Case() { }
-
-        public Case(string title, string status, DateTime deadline, Client client)
-        {
-            Title = title;
-            Status = status;
-            Deadline = deadline;
-            Client = client;
-        }
+        public string CaseTitle { get; set; }
+        public string Description { get; set; }
+        public CaseStatus Status { get; set; } = CaseStatus.Active;
+        public DateTime OpeningDate { get; set; } = DateTime.Now;
+        public DateTime? ClosingDate { get; set; }
+        public DateTime DeadlineDate { get; set; }
+        public int ClientId { get; set; }
+        public Client Client { get; set; }
+        public int LawyerId { get; set; }
+        public Lawyer Lawyer { get; set; }
+        public ICollection<Document> Documents { get; set; } = new List<Document>();
+        public decimal CostsSoFar { get; set; } = 0;
     }
 }

@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ============ MODELS/PERSON.CS ============
+
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LawOfficeApp.Models
 {
-    public class Person
+    // Base class - demonstrates Inheritance
+    public abstract class Person
     {
+        [Key]
         public int Id { get; set; }
-        public string FirstName { get; set; } = "";
-        public string LastName { get; set; } = "";
-        public string FullName => $"{FirstName} {LastName}";
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        protected Person()
-        {
-
-        }
-        protected Person( string firstName, string lastName)
-        {
-          
-            FirstName = firstName;
-            LastName = lastName;
-        }
-        public virtual string GetRole() => "Person";
+        // Polymorphism - Virtual method
+        public virtual string GetFullName() => $"{FirstName} {LastName}";
     }
 }

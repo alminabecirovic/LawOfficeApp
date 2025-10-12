@@ -1,30 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ============ MODELS/DOCUMENT.CS ============
+
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LawOfficeApp.Models
 {
-    public  class Document
+    // Document class
+    public class Document
     {
+        [Key]
         public int Id { get; set; }
-        public string Type { get; set; } = "";
-        public DateTime CreatedDate { get; set; }
-        public string Importance { get; set; } = "";
+        public string Title { get; set; }
+        public string DocumentType { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string FilePath { get; set; }
+        public int Importance { get; set; } // 1-5
         public int CaseId { get; set; }
-
-        public Document()
-        {
-            CreatedDate = DateTime.Now;
-        }
-
-        public Document(string type, string importance, int caseId)
-        {
-            Type = type;
-            Importance = importance;
-            CaseId = caseId;
-            CreatedDate = DateTime.Now;
-        }
+        public Case Case { get; set; }
     }
 }

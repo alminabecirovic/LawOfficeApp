@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LawOfficeApp", "LawOfficeApp\LawOfficeApp.csproj", "{B46B421C-3354-493F-A21E-34CE459E6335}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LawOfficeApp", "LawOfficeApp\LawOfficeApp.csproj", "{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B46B421C-3354-493F-A21E-34CE459E6335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B46B421C-3354-493F-A21E-34CE459E6335}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B46B421C-3354-493F-A21E-34CE459E6335}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B46B421C-3354-493F-A21E-34CE459E6335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E81F125C-14D4-48EE-9CD9-9B4E3398FBC6}
+		SolutionGuid = {CB7C1107-1BC4-45C9-A78C-642B73DABEF8}
 	EndGlobalSection
 EndGlobal
