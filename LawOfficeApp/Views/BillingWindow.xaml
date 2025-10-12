@@ -1,0 +1,33 @@
+﻿<Window x:Class="LawOfficeApp.Views.BillingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:LawOfficeApp.ViewModels"
+        Title="Billing" Height="450" Width="700">
+
+    <!-- DataContext is set in code-behind to pass service -->
+    <DockPanel Margin="10">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Left">
+            <Button Content="Load Invoices" Command="{Binding LoadInvoicesCommand}" Width="120"/>
+            <Button Content="Add Invoice" Command="{Binding AddInvoiceCommand}" Width="100" Margin="6,0,0,0"/>
+        </StackPanel>
+
+        <ListView ItemsSource="{Binding Invoices}" Margin="0,10,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Klijent" DisplayMemberBinding="{Binding Client.FullName}" Width="160"/>
+                    <GridViewColumn Header="Slučaj" DisplayMemberBinding="{Binding Case.Title}" Width="160"/>
+                    <GridViewColumn Header="Iznos" DisplayMemberBinding="{Binding Amount}" Width="80"/>
+                    <GridViewColumn Header="Datum" DisplayMemberBinding="{Binding IssueDate}" Width="140"/>
+                    <GridViewColumn Header="Plaćeno" DisplayMemberBinding="{Binding Paid}" Width="80"/>
+                    <GridViewColumn Header="Akcija" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Mark Paid" Command="{Binding DataContext.MarkPaidCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>
