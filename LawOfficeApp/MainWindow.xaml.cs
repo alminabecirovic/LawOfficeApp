@@ -1,61 +1,164 @@
-﻿using System.Windows;
-using System.ComponentModel;
+﻿using System;
 using System.Linq;
-using System.Windows.Controls;
-using LawOfficeApp.ViewModels;
+using System.Windows;
+using LawOfficeApp.Data;
 using LawOfficeApp.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace LawOfficeApp
 {
     public partial class MainWindow : Window
     {
-        private MainViewModel viewModel;
+        private LawOfficeDbContext db;
+        private int? selectedCaseId = null;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            viewModel = new MainViewModel();
-            this.DataContext = viewModel;
-
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            UpdateViewVisibility();
+            db = new LawOfficeDbContext();
+            LoadAllData();
+            LoadComboBoxes();
         }
 
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        // NAVIGATION BUTTONS
+        private void BtnDashboard_Click(object sender, RoutedEventArgs e)
         {
-            if (e.PropertyName == "CurrentView")
-            {
-                UpdateViewVisibility();
-            }
+            ShowTab("Dashboard");
         }
 
-        private void UpdateViewVisibility()
+        private void BtnClients_Click(object sender, RoutedEventArgs e)
         {
-            DashboardTab.Visibility = Visibility.Collapsed;
-            ClientsTab.Visibility = Visibility.Collapsed;
-            CasesTab.Visibility = Visibility.Collapsed;
-            InvoicesTab.Visibility = Visibility.Collapsed;
+            ShowTab("Clients");
+        }
 
-            switch (viewModel.CurrentView)
+        private void BtnCases_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTab("Cases");
+        }
+
+        private void BtnInvoices_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTab("Invoices");
+        }
+
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadAllData();
+            LoadComboBoxes();
+            MessageBox.Show("Data refreshed!", "Success");
+        }
+
+        private void ShowTab(string tabName)
+        {
+            TabDashboard.Visibility = Visibility.Collapsed;
+            TabClients.Visibility = Visibility.Collapsed;
+            TabCases.Visibility = Visibility.Collapsed;
+            TabInvoices.Visibility = Visibility.Collapsed;
+
+            switch (tabName)
             {
                 case "Dashboard":
-                    DashboardTab.Visibility = Visibility.Visible;
+                    TabDashboard.Visibility = Visibility.Visible;
                     break;
                 case "Clients":
-                    ClientsTab.Visibility = Visibility.Visible;
+                    TabClients.Visibility = Visibility.Visible;
                     break;
                 case "Cases":
-                    CasesTab.Visibility = Visibility.Visible;
+                    TabCases.Visibility = Visibility.Visible;
                     break;
-                case "Invoicing":
-                    InvoicesTab.Visibility = Visibility.Visible;
+                case "Invoices":
+                    TabInvoices.Visibility = Visibility.Visible;
                     break;
             }
         }
 
-        private async void BtnAddClient_Click(object sender, RoutedEventArgs e)
+        // LOAD COMBOBOXES
+        private void LoadComboBoxes()
+        {
+            try
+            {
+                var clients = db.Clients.ToList();
+                var lawyers = db.Lawyers.ToList();
+                var cases = db.Cases.Include(c => c.Client).ToList();
+
+                // Kreiraj display liste sa FullName za prikaz
+                var clientsDisplay = clients.Select(c => new
+                {
+                    Id = c.Id,
+                    FullName = $"{c.FirstName} {c.LastName}",
+                    Email = c.Email
+                }).ToList();
+
+                var lawyersDisplay = lawyers.Select(l => new
+                {
+                    Id = l.Id,
+                    FullName = $"{l.FirstName} {l.LastName} - {l.Specialization}"
+                }).ToList();
+
+                // Clients tab - Update Client ComboBox
+                CmbUpdateClient.ItemsSource = clientsDisplay;
+                CmbUpdateClient.DisplayMemberPath = "FullName";
+                CmbUpdateClient.SelectedValuePath = "Id";
+
+                // Cases tab - Client ComboBox
+                CmbCaseClient.ItemsSource = clientsDisplay;
+                CmbCaseClient.DisplayMemberPath = "FullName";
+                CmbCaseClient.SelectedValuePath = "Id";
+
+                // Cases tab - Lawyer ComboBox
+                CmbCaseLawyer.ItemsSource = lawyersDisplay;
+                CmbCaseLawyer.DisplayMemberPath = "FullName";
+                CmbCaseLawyer.SelectedValuePath = "Id";
+
+                // Invoices tab - Case ComboBox
+                CmbInvoiceCase.ItemsSource = cases;
+                CmbInvoiceCase.DisplayMemberPath = "CaseTitle";
+                CmbInvoiceCase.SelectedValuePath = "Id";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading combo boxes: {ex.Message}", "Error");
+            }
+        }
+
+        // LOAD DATA
+        private void LoadAllData()
+        {
+            try
+            {
+                var cases = db.Cases
+                    .Include(c => c.Client)
+                    .Include(c => c.Lawyer)
+                    .ToList();
+
+                var clients = db.Clients
+                    .Include(c => c.Cases)
+                    .ToList();
+
+                var documents = db.Documents.ToList();
+                var invoices = db.Invoices.ToList();
+
+                // Dashboard
+                GridDashboardCases.ItemsSource = cases;
+                GridDashboardDeadlines.ItemsSource = cases;
+
+                // Clients
+                GridClients.ItemsSource = clients;
+
+                // Cases
+                GridCases.ItemsSource = cases;
+
+                // Invoices
+                GridInvoices.ItemsSource = invoices;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading data: {ex.Message}", "Error");
+            }
+        }
+
+        // ADD CLIENT
+        private void BtnAddClient_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -64,68 +167,60 @@ namespace LawOfficeApp
                     FirstName = TxtClientFirstName.Text,
                     LastName = TxtClientLastName.Text,
                     Email = TxtClientEmail.Text,
-                    PhoneNumber = TxtClientPhone.Text,
-                    Organization = TxtClientOrganization.Text
+                    PhoneNumber = TxtClientPhone.Text
                 };
 
-                await viewModel.AddClientAsync(client);
+                db.Clients.Add(client);
+                db.SaveChanges();
 
                 TxtClientFirstName.Clear();
                 TxtClientLastName.Clear();
                 TxtClientEmail.Clear();
                 TxtClientPhone.Clear();
-                TxtClientOrganization.Clear();
 
-                MessageBox.Show("Client added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadAllData();
+                LoadComboBoxes();
+                MessageBox.Show("Client added successfully!", "Success");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error");
             }
         }
 
-        private async void BtnUpdateClient_Click(object sender, RoutedEventArgs e)
+        // UPDATE CLIENT
+        private void BtnUpdateClient_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                int clientId = int.Parse(TxtUpdateClientId.Text);
-                var client = viewModel.Clients.FirstOrDefault(c => c.Id == clientId);
+                if (CmbUpdateClient.SelectedValue == null)
+                {
+                    MessageBox.Show("Please select a client!", "Error");
+                    return;
+                }
+
+                int id = (int)CmbUpdateClient.SelectedValue;
+                var client = db.Clients.Find(id);
 
                 if (client != null)
                 {
-                    if (!string.IsNullOrEmpty(TxtUpdateEmail.Text))
-                        client.Email = TxtUpdateEmail.Text;
-                    if (!string.IsNullOrEmpty(TxtUpdatePhone.Text))
-                        client.PhoneNumber = TxtUpdatePhone.Text;
+                    client.Email = TxtUpdateEmail.Text;
+                    db.SaveChanges();
 
-                    await viewModel.UpdateClientAsync(client);
-
-                    TxtUpdateClientId.Clear();
                     TxtUpdateEmail.Clear();
-                    TxtUpdatePhone.Clear();
 
-                    MessageBox.Show("Client updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Client not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    LoadAllData();
+                    MessageBox.Show("Client updated successfully!", "Success");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error");
             }
         }
 
-        private void DataGridClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (DataGridClients.SelectedItem is Client selectedClient)
-            {
-                DataGridClientCases.ItemsSource = selectedClient.Cases;
-            }
-        }
-
-        private async void BtnAddCase_Click(object sender, RoutedEventArgs e)
+        // ADD CASE
+        private void BtnAddCase_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -135,40 +230,138 @@ namespace LawOfficeApp
                     Description = TxtCaseDesc.Text,
                     ClientId = (int)CmbCaseClient.SelectedValue,
                     LawyerId = (int)CmbCaseLawyer.SelectedValue,
-                    DeadlineDate = TxtCaseDeadline.SelectedDate ?? DateTime.Now.AddDays(30),
+                    DeadlineDate = DateCaseDeadline.SelectedDate ?? DateTime.Now.AddDays(30),
                     Status = CaseStatus.Active
                 };
 
-                await viewModel.AddCaseAsync(caseItem);
+                db.Cases.Add(caseItem);
+                db.SaveChanges();
 
                 TxtCaseTitle.Clear();
                 TxtCaseDesc.Clear();
 
-                MessageBox.Show("Case added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadAllData();
+                LoadComboBoxes();
+                MessageBox.Show("Case added successfully!", "Success");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error");
             }
         }
 
-        private void DataGridCases_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        // GRID CASES SELECTION CHANGED
+        private void GridCases_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (DataGridCases.SelectedItem is Case selectedCase)
+            try
             {
-                TxtCaseDetails.Text = $"Case: {selectedCase.CaseTitle}\n" +
-                                      $"Description: {selectedCase.Description}\n" +
-                                      $"Client: {selectedCase.Client?.GetFullName()}\n" +
-                                      $"Lawyer: {selectedCase.Lawyer?.GetFullName()}\n" +
-                                      $"Status: {selectedCase.Status}\n" +
-                                      $"Deadline: {selectedCase.DeadlineDate:d}\n" +
-                                      $"Opened: {selectedCase.OpeningDate:d}";
+                if (GridCases.SelectedItem is Case selectedCase)
+                {
+                    selectedCaseId = selectedCase.Id;
 
-                DataGridCaseDocuments.ItemsSource = selectedCase.Documents;
+                    // Load case details
+                    var caseDetails = db.Cases
+                        .Include(c => c.Client)
+                        .Include(c => c.Lawyer)
+                        .FirstOrDefault(c => c.Id == selectedCase.Id);
+
+                    if (caseDetails != null)
+                    {
+                        TxtCaseDetailsInfo.Text = $"Case: {caseDetails.CaseTitle}\n" +
+                                                  $"Client: {caseDetails.Client?.GetFullName()}\n" +
+                                                  $"Lawyer: {caseDetails.Lawyer?.GetFullName()}\n" +
+                                                  $"Status: {caseDetails.Status}\n" +
+                                                  $"Deadline: {caseDetails.DeadlineDate:d}\n" +
+                                                  $"Description: {caseDetails.Description}";
+                    }
+                }
+                else
+                {
+                    selectedCaseId = null;
+                    TxtCaseDetailsInfo.Text = "Select a case above to view details";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading case details: {ex.Message}", "Error");
             }
         }
 
-        private async void BtnAddInvoice_Click(object sender, RoutedEventArgs e)
+        // SET ACTIVE
+        private void BtnSetActive_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCaseStatus(CaseStatus.Active);
+        }
+
+        // SET TRIAL
+        private void BtnSetTrial_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCaseStatus(CaseStatus.Trial);
+        }
+
+        // SET RESOLVED
+        private void BtnSetResolved_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCaseStatus(CaseStatus.Resolved);
+        }
+
+        // SET REJECTED
+        private void BtnSetRejected_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCaseStatus(CaseStatus.Rejected);
+        }
+
+        // SET ON HOLD
+        private void BtnSetOnHold_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCaseStatus(CaseStatus.OnHold);
+        }
+
+        // HELPER METHOD - CHANGE CASE STATUS
+        private void ChangeCaseStatus(CaseStatus newStatus)
+        {
+            try
+            {
+                if (selectedCaseId == null)
+                {
+                    MessageBox.Show("Please select a case first!", "Warning");
+                    return;
+                }
+
+                var caseToUpdate = db.Cases.Find(selectedCaseId);
+                if (caseToUpdate != null)
+                {
+                    caseToUpdate.Status = newStatus;
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    MessageBox.Show($"Case status changed to {newStatus}!", "Success");
+
+                    // Refresh detalje
+                    var updatedCase = db.Cases
+                        .Include(c => c.Client)
+                        .Include(c => c.Lawyer)
+                        .FirstOrDefault(c => c.Id == selectedCaseId);
+
+                    if (updatedCase != null)
+                    {
+                        TxtCaseDetailsInfo.Text = $"Case: {updatedCase.CaseTitle}\n" +
+                                                  $"Client: {updatedCase.Client?.GetFullName()}\n" +
+                                                  $"Lawyer: {updatedCase.Lawyer?.GetFullName()}\n" +
+                                                  $"Status: {updatedCase.Status}\n" +
+                                                  $"Deadline: {updatedCase.DeadlineDate:d}\n" +
+                                                  $"Description: {updatedCase.Description}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error changing status: {ex.Message}", "Error");
+            }
+        }
+
+        // CREATE INVOICE
+        private void BtnCreateInvoice_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -181,16 +374,72 @@ namespace LawOfficeApp
                     IsPaid = false
                 };
 
-                await viewModel.AddInvoiceAsync(invoice);
+                db.Invoices.Add(invoice);
+                db.SaveChanges();
 
                 TxtInvoiceNumber.Clear();
                 TxtInvoiceAmount.Clear();
 
-                MessageBox.Show("Invoice created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadAllData();
+                MessageBox.Show("Invoice created successfully!", "Success");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error");
+            }
+        }
+        private int? selectedInvoiceId = null;
+
+        // INVOICE SELECTION CHANGED
+        private void GridInvoices_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (GridInvoices.SelectedItem is Invoice selectedInvoice)
+            {
+                selectedInvoiceId = selectedInvoice.Id;
+            }
+            else
+            {
+                selectedInvoiceId = null;
+            }
+        }
+
+        // MARK AS PAID
+        private void BtnMarkAsPaid_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeInvoiceStatus(true);
+        }
+
+        // MARK AS UNPAID
+        private void BtnMarkAsUnpaid_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeInvoiceStatus(false);
+        }
+
+        // HELPER METHOD - CHANGE INVOICE STATUS
+        private void ChangeInvoiceStatus(bool isPaid)
+        {
+            try
+            {
+                if (selectedInvoiceId == null)
+                {
+                    MessageBox.Show("Molim vas izaberite fakturu prvo!", "Upozorenje");
+                    return;
+                }
+
+                var invoice = db.Invoices.Find(selectedInvoiceId);
+                if (invoice != null)
+                {
+                    invoice.IsPaid = isPaid;
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    string status = isPaid ? "plaćeno" : "neplaćeno";
+                    MessageBox.Show($"Faktura označena kao {status}!", "Uspeh");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška: {ex.Message}", "Greška");
             }
         }
     }

@@ -144,3 +144,5 @@ C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\bin\Debug\net8.0-windows\ru\Micr
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\bin\Debug\net8.0-windows\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\bin\Debug\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\LawOfficeApp_MarkupCompile.lref
