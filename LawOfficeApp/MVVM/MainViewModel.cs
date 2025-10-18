@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using LawOfficeApp.Data;
-using LawOfficeApp.MVVM.ViewModels;
 
 namespace LawOfficeApp.MVVM
 {

@@ -146,3 +146,11 @@ C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\bin\Debug\net8.0-windows\zh-Hans
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\LawOfficeApp_MarkupCompile.lref
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\CasesView.baml
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\ClientsView.baml
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\DashboardView.baml
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\CasesView.g.cs
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\ClientsView.g.cs
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\DashboardView.g.cs
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\InvoicesView.g.cs
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\InvoicesView.baml

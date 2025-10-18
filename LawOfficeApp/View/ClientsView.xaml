@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="LawOfficeApp.Views.ClientsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel>
+        <TextBlock Text="Upravljanje klijentima" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <TextBlock Text="Dodaj novog klijenta" FontWeight="Bold" Margin="0,0,0,10"/>
+        <StackPanel>
+            <TextBlock Text="Ime"/>
+            <TextBox Text="{Binding ClientsVM.FirstName, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <TextBlock Text="Prezime"/>
+            <TextBox Text="{Binding ClientsVM.LastName, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <TextBlock Text="Email"/>
+            <TextBox Text="{Binding ClientsVM.Email, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <TextBlock Text="Telefon"/>
+            <TextBox Text="{Binding ClientsVM.Phone, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <Button Content="Dodaj klijenta" Width="120" Height="30" 
+                    HorizontalAlignment="Left" Margin="0,5,0,0" 
+                    Command="{Binding ClientsVM.AddClientCommand}"/>
+        </StackPanel>
+
+        <Separator Margin="0,20"/>
+
+        <TextBlock Text="Ažuriraj klijenta" FontWeight="Bold" Margin="0,20,0,10"/>
+        <StackPanel>
+            <TextBlock Text="Izaberi klijenta"/>
+            <ComboBox ItemsSource="{Binding ClientsVM.UpdateClientList}" 
+                      SelectedItem="{Binding ClientsVM.SelectedUpdateClient}"
+                      Margin="0,5,0,10" Padding="5" 
+                      DisplayMemberPath="FullName" SelectedValuePath="Id"/>
+            <TextBlock Text="Novi Email"/>
+            <TextBox Text="{Binding ClientsVM.UpdateEmail, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <Button Content="Ažuriraj" Width="100" Height="30" 
+                    HorizontalAlignment="Left" Margin="0,5,0,0" 
+                    Command="{Binding ClientsVM.UpdateClientCommand}"/>
+        </StackPanel>
+
+        <Separator Margin="0,20"/>
+
+        <TextBlock Text="Svi klijenti" FontWeight="Bold" Margin="0,20,0,5"/>
+        <DataGrid ItemsSource="{Binding ClientsVM.Clients}" Height="250" AutoGenerateColumns="False" 
+                  IsReadOnly="True" BorderBrush="LightGray" BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ime" Binding="{Binding FirstName}" Width="120"/>
+                <DataGridTextColumn Header="Prezime" Binding="{Binding LastName}" Width="120"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180"/>
+                <DataGridTextColumn Header="Telefon" Binding="{Binding PhoneNumber}" Width="120"/>
+                <DataGridTextColumn Header="Predmeti" Binding="{Binding Cases.Count}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="LawOfficeApp.Views.InvoicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LawOfficeApp">
+
+    <StackPanel>
+        <TextBlock Text="Fakturisanje" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <TextBlock Text="Kreiraj fakturu" FontWeight="Bold" Margin="0,0,0,10"/>
+        <StackPanel>
+            <TextBlock Text="Broj fakture"/>
+            <TextBox Text="{Binding InvoicesVM.InvoiceNumber, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <TextBlock Text="Iznos"/>
+            <TextBox Text="{Binding InvoicesVM.Amount, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,5,0,10" Padding="5"/>
+            <TextBlock Text="Izaberi predmet"/>
+            <ComboBox ItemsSource="{Binding InvoicesVM.CaseList}" 
+                      SelectedItem="{Binding InvoicesVM.SelectedCase}"
+                      Margin="0,5,0,10" Padding="5" 
+                      DisplayMemberPath="CaseTitle" SelectedValuePath="Id"/>
+            <Button Content="Kreiraj fakturu" Width="130" Height="30" 
+                    HorizontalAlignment="Left" Margin="0,5,0,0" 
+                    Command="{Binding InvoicesVM.CreateInvoiceCommand}"/>
+        </StackPanel>
+
+        <Separator Margin="0,20"/>
+
+        <TextBlock Text="Sve fakture" FontWeight="Bold" Margin="0,20,0,5"/>
+        <DataGrid ItemsSource="{Binding InvoicesVM.Invoices}" 
+                  SelectedItem="{Binding InvoicesVM.SelectedInvoice}"
+                  Height="300" AutoGenerateColumns="False" IsReadOnly="True"
+                  BorderBrush="LightGray" BorderThickness="1">
+            <DataGrid.Resources>
+                <local:BoolToYesNoConverter x:Key="BoolToYesNoConverter"/>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj fakture" Binding="{Binding InvoiceNumber}" Width="120"/>
+                <DataGridTextColumn Header="Iznos" Binding="{Binding Amount, StringFormat=c}" Width="100"/>
+                <DataGridTextColumn Header="Datum" Binding="{Binding IssueDate, StringFormat=d}" Width="120"/>
+                <DataGridTextColumn Header="Plaćeno" Binding="{Binding IsPaid, Converter={StaticResource BoolToYesNoConverter}}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <TextBlock Text="Promeni status plaćanja: " FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <Button Content="Označi kao plaćeno" Width="150" Height="30" Margin="0,0,10,0" 
+                    Command="{Binding InvoicesVM.MarkAsPaidCommand}"/>
+            <Button Content="Označi kao neplaćeno" Width="160" Height="30" 
+                    Command="{Binding InvoicesVM.MarkAsUnpaidCommand}"/>
+        </StackPanel>
+    </StackPanel>
+
+</UserControl>

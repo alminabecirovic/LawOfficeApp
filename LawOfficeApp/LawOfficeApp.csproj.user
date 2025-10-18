@@ -10,9 +10,33 @@
     <Compile Update="MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\CasesView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ClientsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\DashboardView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\InvoicesView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\CasesView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ClientsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\DashboardView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\InvoicesView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

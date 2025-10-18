@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="LawOfficeApp.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel>
+        <TextBlock Text="Kontrolna tabla" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <TextBlock Text="Aktivni predmeti" FontWeight="Bold" Margin="0,10,0,5"/>
+        <DataGrid ItemsSource="{Binding DashboardVM.ActiveCases}" Height="150" AutoGenerateColumns="False" 
+                  IsReadOnly="True" BorderBrush="LightGray" BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naziv predmeta" Binding="{Binding CaseTitle}" Width="250"/>
+                <DataGridTextColumn Header="Klijent" Binding="{Binding Client.GetFullName}" Width="150"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Text="Nadolazeći rokovi" FontWeight="Bold" Margin="0,20,0,5"/>
+        <DataGrid ItemsSource="{Binding DashboardVM.UpcomingDeadlines}" Height="120" AutoGenerateColumns="False" 
+                  IsReadOnly="True" BorderBrush="LightGray" BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Predmet" Binding="{Binding CaseTitle}" Width="300"/>
+                <DataGridTextColumn Header="Rok" Binding="{Binding DeadlineDate, StringFormat=d}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+
+</UserControl>
