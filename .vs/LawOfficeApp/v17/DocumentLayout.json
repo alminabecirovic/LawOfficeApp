@@ -3,12 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\services\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\services\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\mvvm\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\mvvm\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\mvvm\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\mvvm\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\viewmodels\\clientsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\viewmodels\\clientsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\viewmodels\\casesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\viewmodels\\casesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\viewmodels\\dashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\viewmodels\\dashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\viewmodels\\invoicesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\viewmodels\\invoicesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\mvvm\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\mvvm\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\booltoyesnoconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\models\\case.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\models\\case.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|solutionrelative:lawofficeapp\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E1458D3-C713-436B-9FE0-0CFCCD39DA7A}|LawOfficeApp\\LawOfficeApp.csproj|c:\\users\\dell\\desktop\\lawofficeapp\\lawofficeapp\\models\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -54,11 +86,131 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Service.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Services\\Service.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\Services\\Service.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Services\\Service.cs",
+              "RelativeToolTip": "LawOfficeApp\\Services\\Service.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T13:39:25.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MVVM\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\MVVM\\MainViewModel.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MVVM\\MainViewModel.cs",
+              "RelativeToolTip": "LawOfficeApp\\MVVM\\MainViewModel.cs",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAAAGIAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T13:36:00.969Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DashboardViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\DashboardViewModel.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\ViewModels\\DashboardViewModel.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\DashboardViewModel.cs",
+              "RelativeToolTip": "LawOfficeApp\\ViewModels\\DashboardViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADUAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T12:54:09.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ClientsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\ClientsViewModel.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\ViewModels\\ClientsViewModel.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\ClientsViewModel.cs",
+              "RelativeToolTip": "LawOfficeApp\\ViewModels\\ClientsViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAALAAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T12:55:04.67Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "CasesViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\CasesViewModel.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\ViewModels\\CasesViewModel.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\CasesViewModel.cs",
+              "RelativeToolTip": "LawOfficeApp\\ViewModels\\CasesViewModel.cs",
+              "ViewState": "AQIAANkAAAAAAAAAAAAswPwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T12:55:49.525Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWindow.xaml.cs",
+              "RelativeToolTip": "LawOfficeApp\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T19:31:11.464Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ViewModelBase.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MVVM\\ViewModelBase.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\MVVM\\ViewModelBase.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MVVM\\ViewModelBase.cs",
+              "RelativeToolTip": "LawOfficeApp\\MVVM\\ViewModelBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T12:33:38.939Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "LawOfficeApp\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWindow.xaml",
+              "RelativeToolTip": "LawOfficeApp\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-14T19:26:22.256Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "InvoicesViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\InvoicesViewModel.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\ViewModels\\InvoicesViewModel.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\ViewModels\\InvoicesViewModel.cs",
+              "RelativeToolTip": "LawOfficeApp\\ViewModels\\InvoicesViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T12:56:13.812Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "RelayCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MVVM\\RelayCommand.cs",
+              "RelativeDocumentMoniker": "LawOfficeApp\\MVVM\\RelayCommand.cs",
+              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MVVM\\RelayCommand.cs",
+              "RelativeToolTip": "LawOfficeApp\\MVVM\\RelayCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T12:37:44.893Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "LawOfficeDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Data\\LawOfficeDbContext.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\Data\\LawOfficeDbContext.cs",
@@ -66,12 +218,11 @@
               "RelativeToolTip": "LawOfficeApp\\Data\\LawOfficeDbContext.cs",
               "ViewState": "AQIAAB4AAAAAAAAAAAAAADUAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T21:17:06.326Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T21:17:06.326Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 15,
               "Title": "Lawyer.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Models\\Lawyer.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\Models\\Lawyer.cs",
@@ -79,50 +230,23 @@
               "RelativeToolTip": "LawOfficeApp\\Models\\Lawyer.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T21:16:54.238Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T21:16:54.238Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "Client.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Models\\Client.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\Models\\Client.cs",
               "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Models\\Client.cs",
               "RelativeToolTip": "LawOfficeApp\\Models\\Client.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAA5wA8AAAABAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAA3wA8AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T20:56:40.509Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T20:56:40.509Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainWIndow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWIndow.xaml.cs",
-              "RelativeDocumentMoniker": "LawOfficeApp\\MainWIndow.xaml.cs",
-              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWIndow.xaml.cs",
-              "RelativeToolTip": "LawOfficeApp\\MainWIndow.xaml.cs",
-              "ViewState": "AQIAAJQBAAAAAAAAAAAAALsBAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T19:31:11.464Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "LawOfficeApp\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\MainWindow.xaml",
-              "RelativeToolTip": "LawOfficeApp\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-14T19:26:22.256Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "BoolToYesNoConverter.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\BoolToYesNoConverter.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\BoolToYesNoConverter.cs",
@@ -130,12 +254,11 @@
               "RelativeToolTip": "LawOfficeApp\\BoolToYesNoConverter.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T22:36:31.38Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T22:36:31.38Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 13,
               "Title": "Person.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Models\\Person.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\Models\\Person.cs",
@@ -143,12 +266,11 @@
               "RelativeToolTip": "LawOfficeApp\\Models\\Person.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T21:51:40.031Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T21:51:40.031Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "Case.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Models\\Case.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\Models\\Case.cs",
@@ -156,24 +278,22 @@
               "RelativeToolTip": "LawOfficeApp\\Models\\Case.cs",
               "ViewState": "AQIAAAoAAAAAAAAAAAA1wB0AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T20:57:12.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T20:57:12.672Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 17,
               "Title": "App.xaml",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\App.xaml",
               "RelativeDocumentMoniker": "LawOfficeApp\\App.xaml",
               "ToolTip": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\App.xaml",
               "RelativeToolTip": "LawOfficeApp\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-14T19:31:36.99Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T19:31:36.99Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "Document.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\Models\\Document.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\Models\\Document.cs",
@@ -181,12 +301,11 @@
               "RelativeToolTip": "LawOfficeApp\\Models\\Document.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T20:56:53.874Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T20:56:53.874Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Dell\\Desktop\\LawOfficeApp\\LawOfficeApp\\App.xaml.cs",
               "RelativeDocumentMoniker": "LawOfficeApp\\App.xaml.cs",
@@ -194,8 +313,7 @@
               "RelativeToolTip": "LawOfficeApp\\App.xaml.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T19:29:43.586Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T19:29:43.586Z"
             }
           ]
         }

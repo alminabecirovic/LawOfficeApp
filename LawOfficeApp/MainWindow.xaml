@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:LawOfficeApp"
         Title="Upravljanje advokatskom kancelarijom" Height="600" Width="900" Background="White">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,11 +14,14 @@
         <StackPanel Grid.Row="0" Background="White" Margin="20,20,20,10">
             <TextBlock Text="Advokatska kanncelarija" FontSize="22" FontWeight="Bold" Margin="0,0,0,15"/>
             <StackPanel Orientation="Horizontal">
-                <Button Name="BtnDashboard" Content="Kontrolna tabla" Width="120" Height="30" Margin="0,0,10,0" Click="BtnDashboard_Click"/>
-                <Button Name="BtnClients" Content="Klijenti" Width="90" Height="30" Margin="0,0,10,0" Click="BtnClients_Click"/>
-                <Button Name="BtnCases" Content="Predmeti" Width="90" Height="30" Margin="0,0,10,0" Click="BtnCases_Click"/>
-                <Button Name="BtnInvoices" Content="Fakture" Width="90" Height="30" Margin="0,0,10,0" Click="BtnInvoices_Click"/>
-                
+                <Button Content="Kontrolna tabla" Width="120" Height="30" Margin="0,0,10,0" 
+                        Command="{Binding ShowDashboardCommand}"/>
+                <Button Content="Klijenti" Width="90" Height="30" Margin="0,0,10,0" 
+                        Command="{Binding ShowClientsCommand}"/>
+                <Button Content="Predmeti" Width="90" Height="30" Margin="0,0,10,0" 
+                        Command="{Binding ShowCasesCommand}"/>
+                <Button Content="Fakture" Width="90" Height="30" Margin="0,0,10,0" 
+                        Command="{Binding ShowInvoicesCommand}"/>
             </StackPanel>
             <Separator Margin="0,15,0,0"/>
         </StackPanel>
@@ -27,12 +31,12 @@
             <StackPanel Margin="20">
 
                 <!-- DASHBOARD -->
-                <StackPanel Name="TabDashboard" Visibility="Visible">
+                <StackPanel Visibility="{Binding DashboardVisibility}">
                     <TextBlock Text="Kontrolna tabla" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
 
                     <TextBlock Text="Aktivni predmeti" FontWeight="Bold" Margin="0,10,0,5"/>
-                    <DataGrid Name="GridDashboardCases" Height="150" AutoGenerateColumns="False" IsReadOnly="True" 
-                              BorderBrush="LightGray" BorderThickness="1">
+                    <DataGrid ItemsSource="{Binding DashboardVM.ActiveCases}" Height="150" AutoGenerateColumns="False" 
+                              IsReadOnly="True" BorderBrush="LightGray" BorderThickness="1">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Naziv predmeta" Binding="{Binding CaseTitle}" Width="250"/>
                             <DataGridTextColumn Header="Klijent" Binding="{Binding Client.GetFullName}" Width="150"/>
@@ -41,32 +45,36 @@
                     </DataGrid>
 
                     <TextBlock Text="Nadolazeći rokovi" FontWeight="Bold" Margin="0,20,0,5"/>
-                    <DataGrid Name="GridDashboardDeadlines" Height="120" AutoGenerateColumns="False" IsReadOnly="True"
-                              BorderBrush="LightGray" BorderThickness="1">
+                    <DataGrid ItemsSource="{Binding DashboardVM.UpcomingDeadlines}" Height="120" AutoGenerateColumns="False" 
+                              IsReadOnly="True" BorderBrush="LightGray" BorderThickness="1">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Predmet" Binding="{Binding CaseTitle}" Width="300"/>
                             <DataGridTextColumn Header="Rok" Binding="{Binding DeadlineDate, StringFormat=d}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
-
                 </StackPanel>
 
                 <!-- CLIENTS -->
-                <StackPanel Name="TabClients" Visibility="Collapsed">
+                <StackPanel Visibility="{Binding ClientsVisibility}">
                     <TextBlock Text="Upravljanje klijentima" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
 
                     <TextBlock Text="Dodaj novog klijenta" FontWeight="Bold" Margin="0,0,0,10"/>
                     <StackPanel>
                         <TextBlock Text="Ime"/>
-                        <TextBox Name="TxtClientFirstName" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding ClientsVM.FirstName, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Prezime"/>
-                        <TextBox Name="TxtClientLastName" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding ClientsVM.LastName, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Email"/>
-                        <TextBox Name="TxtClientEmail" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding ClientsVM.Email, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Telefon"/>
-                        <TextBox Name="TxtClientPhone" Margin="0,5,0,10" Padding="5"/>
-                        <Button Name="BtnAddClient" Content="Dodaj klijenta" Width="120" Height="30" 
-                                HorizontalAlignment="Left" Margin="0,5,0,0" Click="BtnAddClient_Click"/>
+                        <TextBox Text="{Binding ClientsVM.Phone, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
+                        <Button Content="Dodaj klijenta" Width="120" Height="30" 
+                                HorizontalAlignment="Left" Margin="0,5,0,0" 
+                                Command="{Binding ClientsVM.AddClientCommand}"/>
                     </StackPanel>
 
                     <Separator Margin="0,20"/>
@@ -74,19 +82,23 @@
                     <TextBlock Text="Ažuriraj klijenta" FontWeight="Bold" Margin="0,20,0,10"/>
                     <StackPanel>
                         <TextBlock Text="Izaberi klijenta"/>
-                        <ComboBox Name="CmbUpdateClient" Margin="0,5,0,10" Padding="5" 
-                                  DisplayMemberPath="GetFullName" SelectedValuePath="Id"/>
+                        <ComboBox ItemsSource="{Binding ClientsVM.UpdateClientList}" 
+                                  SelectedItem="{Binding ClientsVM.SelectedUpdateClient}"
+                                  Margin="0,5,0,10" Padding="5" 
+                                  DisplayMemberPath="FullName" SelectedValuePath="Id"/>
                         <TextBlock Text="Novi Email"/>
-                        <TextBox Name="TxtUpdateEmail" Margin="0,5,0,10" Padding="5"/>
-                        <Button Name="BtnUpdateClient" Content="Ažuriraj" Width="100" Height="30" 
-                                HorizontalAlignment="Left" Margin="0,5,0,0" Click="BtnUpdateClient_Click"/>
+                        <TextBox Text="{Binding ClientsVM.UpdateEmail, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
+                        <Button Content="Ažuriraj" Width="100" Height="30" 
+                                HorizontalAlignment="Left" Margin="0,5,0,0" 
+                                Command="{Binding ClientsVM.UpdateClientCommand}"/>
                     </StackPanel>
 
                     <Separator Margin="0,20"/>
 
                     <TextBlock Text="Svi klijenti" FontWeight="Bold" Margin="0,20,0,5"/>
-                    <DataGrid Name="GridClients" Height="250" AutoGenerateColumns="False" IsReadOnly="True"
-                     BorderBrush="LightGray" BorderThickness="1">
+                    <DataGrid ItemsSource="{Binding ClientsVM.Clients}" Height="250" AutoGenerateColumns="False" 
+                              IsReadOnly="True" BorderBrush="LightGray" BorderThickness="1">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Ime" Binding="{Binding FirstName}" Width="120"/>
                             <DataGridTextColumn Header="Prezime" Binding="{Binding LastName}" Width="120"/>
@@ -98,32 +110,41 @@
                 </StackPanel>
 
                 <!-- CASES -->
-                <StackPanel Name="TabCases" Visibility="Collapsed">
+                <StackPanel Visibility="{Binding CasesVisibility}">
                     <TextBlock Text="Profil predmeta" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
 
                     <TextBlock Text="Dodaj novi predmet" FontWeight="Bold" Margin="0,0,0,10"/>
                     <StackPanel>
                         <TextBlock Text="Naziv predmeta"/>
-                        <TextBox Name="TxtCaseTitle" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding CasesVM.CaseTitle, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Opis"/>
-                        <TextBox Name="TxtCaseDesc" Height="60" TextWrapping="Wrap" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding CasesVM.Description, UpdateSourceTrigger=PropertyChanged}" 
+                                 Height="60" TextWrapping="Wrap" Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Izaberi klijenta"/>
-                        <ComboBox Name="CmbCaseClient" Margin="0,5,0,10" Padding="5" 
-                                  DisplayMemberPath="GetFullName" SelectedValuePath="Id"/>
+                        <ComboBox ItemsSource="{Binding CasesVM.ClientList}" 
+                                  SelectedItem="{Binding CasesVM.SelectedClient}"
+                                  Margin="0,5,0,10" Padding="5" 
+                                  DisplayMemberPath="FullName" SelectedValuePath="Id"/>
                         <TextBlock Text="Izaberi advokata"/>
-                        <ComboBox Name="CmbCaseLawyer" Margin="0,5,0,10" Padding="5" 
-                                  DisplayMemberPath="GetFullName" SelectedValuePath="Id"/>
+                        <ComboBox ItemsSource="{Binding CasesVM.LawyerList}" 
+                                  SelectedItem="{Binding CasesVM.SelectedLawyer}"
+                                  Margin="0,5,0,10" Padding="5" 
+                                  DisplayMemberPath="FullName" SelectedValuePath="Id"/>
                         <TextBlock Text="Rok"/>
-                        <DatePicker Name="DateCaseDeadline" Margin="0,5,0,10"/>
-                        <Button Name="BtnAddCase" Content="Dodaj predmet" Width="120" Height="30" 
-                                HorizontalAlignment="Left" Margin="0,5,0,0" Click="BtnAddCase_Click"/>
+                        <DatePicker SelectedDate="{Binding CasesVM.Deadline}" Margin="0,5,0,10"/>
+                        <Button Content="Dodaj predmet" Width="120" Height="30" 
+                                HorizontalAlignment="Left" Margin="0,5,0,0" 
+                                Command="{Binding CasesVM.AddCaseCommand}"/>
                     </StackPanel>
 
                     <Separator Margin="0,20"/>
 
                     <TextBlock Text="Svi predmeti - Kliknite za detalje" FontWeight="Bold" Margin="0,20,0,5"/>
-                    <DataGrid Name="GridCases" Height="200" AutoGenerateColumns="False" IsReadOnly="True"
-                              BorderBrush="LightGray" BorderThickness="1" SelectionChanged="GridCases_SelectionChanged">
+                    <DataGrid ItemsSource="{Binding CasesVM.Cases}" 
+                              SelectedItem="{Binding CasesVM.SelectedCase}"
+                              Height="200" AutoGenerateColumns="False" IsReadOnly="True"
+                              BorderBrush="LightGray" BorderThickness="1">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"/>
                             <DataGridTextColumn Header="Naziv" Binding="{Binding CaseTitle}" Width="200"/>
@@ -138,45 +159,56 @@
                     <TextBlock Text="Izabrani predmet - Detaljan profil" FontWeight="Bold" FontSize="16" Margin="0,20,0,10"/>
                     <Border BorderBrush="LightGray" BorderThickness="1" Padding="15" Background="WhiteSmoke">
                         <StackPanel>
-                            <TextBlock Name="TxtCaseDetailsInfo" Text="Izaberite predmet iznad za pregled detalja" 
-                   TextWrapping="Wrap" FontSize="13" Margin="0,0,0,15"/>
+                            <TextBlock Text="{Binding CasesVM.CaseDetailsInfo}" 
+                                       TextWrapping="Wrap" FontSize="13" Margin="0,0,0,15"/>
 
                             <!-- Dugmad za promenu statusa -->
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <TextBlock Text="Promeni status: " FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                <Button Name="BtnSetActive" Content="Aktivan" Width="80" Height="30" Margin="0,0,5,0" Click="BtnSetActive_Click"/>
-                                <Button Name="BtnSetTrial" Content="Suđenje" Width="80" Height="30" Margin="0,0,5,0" Click="BtnSetTrial_Click"/>
-                                <Button Name="BtnSetResolved" Content="Rešen" Width="80" Height="30" Margin="0,0,5,0" Click="BtnSetResolved_Click"/>
-                                <Button Name="BtnSetRejected" Content="Odbijen" Width="80" Height="30" Margin="0,0,5,0" Click="BtnSetRejected_Click"/>
-                                <Button Name="BtnSetOnHold" Content="Na čekanju" Width="90" Height="30" Click="BtnSetOnHold_Click"/>
+                                <Button Content="Aktivan" Width="80" Height="30" Margin="0,0,5,0" 
+                                        Command="{Binding CasesVM.SetActiveCommand}"/>
+                                <Button Content="Suđenje" Width="80" Height="30" Margin="0,0,5,0" 
+                                        Command="{Binding CasesVM.SetTrialCommand}"/>
+                                <Button Content="Rešen" Width="80" Height="30" Margin="0,0,5,0" 
+                                        Command="{Binding CasesVM.SetResolvedCommand}"/>
+                                <Button Content="Odbijen" Width="80" Height="30" Margin="0,0,5,0" 
+                                        Command="{Binding CasesVM.SetRejectedCommand}"/>
+                                <Button Content="Na čekanju" Width="90" Height="30" 
+                                        Command="{Binding CasesVM.SetOnHoldCommand}"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
                 </StackPanel>
 
                 <!-- INVOICES -->
-                <StackPanel Name="TabInvoices" Visibility="Collapsed">
+                <StackPanel Visibility="{Binding InvoicesVisibility}">
                     <TextBlock Text="Fakturisanje" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
 
                     <TextBlock Text="Kreiraj fakturu" FontWeight="Bold" Margin="0,0,0,10"/>
                     <StackPanel>
                         <TextBlock Text="Broj fakture"/>
-                        <TextBox Name="TxtInvoiceNumber" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding InvoicesVM.InvoiceNumber, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Iznos"/>
-                        <TextBox Name="TxtInvoiceAmount" Margin="0,5,0,10" Padding="5"/>
+                        <TextBox Text="{Binding InvoicesVM.Amount, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,5,0,10" Padding="5"/>
                         <TextBlock Text="Izaberi predmet"/>
-                        <ComboBox Name="CmbInvoiceCase" Margin="0,5,0,10" Padding="5" 
+                        <ComboBox ItemsSource="{Binding InvoicesVM.CaseList}" 
+                                  SelectedItem="{Binding InvoicesVM.SelectedCase}"
+                                  Margin="0,5,0,10" Padding="5" 
                                   DisplayMemberPath="CaseTitle" SelectedValuePath="Id"/>
-                        <Button Name="BtnCreateInvoice" Content="Kreiraj fakturu" Width="130" Height="30" 
-                                HorizontalAlignment="Left" Margin="0,5,0,0" Click="BtnCreateInvoice_Click"/>
+                        <Button Content="Kreiraj fakturu" Width="130" Height="30" 
+                                HorizontalAlignment="Left" Margin="0,5,0,0" 
+                                Command="{Binding InvoicesVM.CreateInvoiceCommand}"/>
                     </StackPanel>
 
                     <Separator Margin="0,20"/>
 
                     <TextBlock Text="Sve fakture" FontWeight="Bold" Margin="0,20,0,5"/>
-                    <DataGrid Name="GridInvoices" Height="300" AutoGenerateColumns="False" IsReadOnly="True"
-                      BorderBrush="LightGray" BorderThickness="1" 
-                      SelectionChanged="GridInvoices_SelectionChanged">             
+                    <DataGrid ItemsSource="{Binding InvoicesVM.Invoices}" 
+                              SelectedItem="{Binding InvoicesVM.SelectedInvoice}"
+                              Height="300" AutoGenerateColumns="False" IsReadOnly="True"
+                              BorderBrush="LightGray" BorderThickness="1">
                         <DataGrid.Resources>
                             <local:BoolToYesNoConverter x:Key="BoolToYesNoConverter"/>
                         </DataGrid.Resources>
@@ -189,8 +221,10 @@
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <TextBlock Text="Promeni status plaćanja: " FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <Button Name="BtnMarkAsPaid" Content="Označi kao plaćeno" Width="150" Height="30" Margin="0,0,10,0" Click="BtnMarkAsPaid_Click"/>
-                        <Button Name="BtnMarkAsUnpaid" Content="Označi kao neplaćeno" Width="160" Height="30" Click="BtnMarkAsUnpaid_Click"/>
+                        <Button Content="Označi kao plaćeno" Width="150" Height="30" Margin="0,0,10,0" 
+                                Command="{Binding InvoicesVM.MarkAsPaidCommand}"/>
+                        <Button Content="Označi kao neplaćeno" Width="160" Height="30" 
+                                Command="{Binding InvoicesVM.MarkAsUnpaidCommand}"/>
                     </StackPanel>
                 </StackPanel>
 
