@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LawOfficeApp.Data;
 using LawOfficeApp.Models;
+using LawOfficeApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LawOfficeApp.Services
@@ -11,21 +13,24 @@ namespace LawOfficeApp.Services
     {
         private readonly LawOfficeDbContext _context;
         private readonly EventMediator _eventMediator;
+        private readonly IRepository<Document> _documentRepository;
 
-        public DocumentService(LawOfficeDbContext context, EventMediator eventMediator)
+        public DocumentService(LawOfficeDbContext context, EventMediator eventMediator,
+                             IRepository<Document> documentRepository)
         {
             _context = context;
             _eventMediator = eventMediator;
+            _documentRepository = documentRepository;
         }
 
-        public List<Document> GetAllDocuments()
+        public async Task<List<Document>> GetAllDocuments()
         {
             try
             {
-                return _context.Documents
+                return await _context.Documents
                     .Include(d => d.Case)
                     .ThenInclude(c => c.Client)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -34,13 +39,13 @@ namespace LawOfficeApp.Services
             }
         }
 
-        public Document GetDocumentById(int id)
+        public async Task<Document> GetDocumentById(int id)
         {
             try
             {
-                return _context.Documents
+                return await _context.Documents
                     .Include(d => d.Case)
-                    .FirstOrDefault(d => d.Id == id);
+                    .FirstOrDefaultAsync(d => d.Id == id);
             }
             catch (Exception ex)
             {
@@ -49,12 +54,11 @@ namespace LawOfficeApp.Services
             }
         }
 
-        public bool AddDocument(Document document)
+        public async Task<bool> AddDocument(Document document)
         {
             try
             {
-                _context.Documents.Add(document);
-                _context.SaveChanges();
+                await _documentRepository.AddAsync(document);
 
                 _eventMediator.RaiseDataChanged($"Document {document.Title} added successfully");
                 return true;
@@ -66,14 +70,14 @@ namespace LawOfficeApp.Services
             }
         }
 
-        public List<Document> GetDocumentsByCase(int caseId)
+        public async Task<List<Document>> GetDocumentsByCase(int caseId)
         {
             try
             {
-                return _context.Documents
+                return await _context.Documents
                     .Include(d => d.Case)
                     .Where(d => d.CaseId == caseId)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -82,15 +86,15 @@ namespace LawOfficeApp.Services
             }
         }
 
-        public List<Document> SearchDocuments(string searchTerm)
+        public async Task<List<Document>> SearchDocuments(string searchTerm)
         {
             try
             {
-                return _context.Documents
+                return await _context.Documents
                     .Include(d => d.Case)
                     .Where(d => d.Title.Contains(searchTerm) ||
                                d.FilePath.Contains(searchTerm))
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -99,11 +103,11 @@ namespace LawOfficeApp.Services
             }
         }
 
-        public bool DeleteDocument(int id)
+        public async Task<bool> DeleteDocument(int id)
         {
             try
             {
-                var document = _context.Documents.Find(id);
+                var document = await _context.Documents.FindAsync(id);
                 if (document == null)
                 {
                     _eventMediator.RaiseDataChanged("Document not found");
@@ -111,7 +115,7 @@ namespace LawOfficeApp.Services
                 }
 
                 _context.Documents.Remove(document);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 _eventMediator.RaiseDataChanged($"Document {document.Title} deleted");
                 return true;
@@ -123,11 +127,11 @@ namespace LawOfficeApp.Services
             }
         }
 
-        public bool UpdateDocument(int id, string newTitle = null, string newFilePath = null)
+        public async Task<bool> UpdateDocument(int id, string newTitle = null, string newFilePath = null)
         {
             try
             {
-                var document = _context.Documents.Find(id);
+                var document = await _context.Documents.FindAsync(id);
                 if (document == null)
                 {
                     _eventMediator.RaiseDataChanged("Document not found");
@@ -140,7 +144,7 @@ namespace LawOfficeApp.Services
                 if (!string.IsNullOrEmpty(newFilePath))
                     document.FilePath = newFilePath;
 
-                _context.SaveChanges();
+                await _documentRepository.UpdateAsync(document);
 
                 _eventMediator.RaiseDataChanged($"Document {document.Title} updated");
                 return true;

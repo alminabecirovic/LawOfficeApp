@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LawOfficeApp.Data;
 using LawOfficeApp.Models;
+using LawOfficeApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LawOfficeApp.Services
@@ -11,22 +13,25 @@ namespace LawOfficeApp.Services
     {
         private readonly LawOfficeDbContext _context;
         private readonly EventMediator _eventMediator;
+        private readonly IRepository<Invoice> _invoiceRepository;
 
-        public InvoiceService(LawOfficeDbContext context, EventMediator eventMediator)
+        public InvoiceService(LawOfficeDbContext context, EventMediator eventMediator,
+                            IRepository<Invoice> invoiceRepository)
         {
             _context = context;
             _eventMediator = eventMediator;
+            _invoiceRepository = invoiceRepository;
         }
 
         // Get all invoices
-        public List<Invoice> GetAllInvoices()
+        public async Task<List<Invoice>> GetAllInvoices()
         {
             try
             {
-                return _context.Invoices
+                return await _context.Invoices
                     .Include(i => i.Case)
                     .ThenInclude(c => c.Client)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -36,14 +41,14 @@ namespace LawOfficeApp.Services
         }
 
         // Get invoice by ID
-        public Invoice GetInvoiceById(int id)
+        public async Task<Invoice> GetInvoiceById(int id)
         {
             try
             {
-                return _context.Invoices
+                return await _context.Invoices
                     .Include(i => i.Case)
                     .ThenInclude(c => c.Client)
-                    .FirstOrDefault(i => i.Id == id);
+                    .FirstOrDefaultAsync(i => i.Id == id);
             }
             catch (Exception ex)
             {
@@ -53,12 +58,11 @@ namespace LawOfficeApp.Services
         }
 
         // Create new invoice
-        public bool CreateInvoice(Invoice invoice)
+        public async Task<bool> CreateInvoice(Invoice invoice)
         {
             try
             {
-                _context.Invoices.Add(invoice);
-                _context.SaveChanges();
+                await _invoiceRepository.AddAsync(invoice);
 
                 _eventMediator.RaiseDataChanged($"Invoice {invoice.InvoiceNumber} created successfully");
                 return true;
@@ -71,11 +75,11 @@ namespace LawOfficeApp.Services
         }
 
         // Update invoice payment status
-        public bool UpdatePaymentStatus(int id, bool isPaid)
+        public async Task<bool> UpdatePaymentStatus(int id, bool isPaid)
         {
             try
             {
-                var invoice = _context.Invoices.Find(id);
+                var invoice = await _context.Invoices.FindAsync(id);
                 if (invoice == null)
                 {
                     _eventMediator.RaiseDataChanged("Invoice not found");
@@ -83,7 +87,7 @@ namespace LawOfficeApp.Services
                 }
 
                 invoice.IsPaid = isPaid;
-                _context.SaveChanges();
+                await _invoiceRepository.UpdateAsync(invoice);
 
                 string status = isPaid ? "paid" : "unpaid";
                 _eventMediator.RaiseDataChanged($"Invoice marked as {status}");
@@ -97,15 +101,15 @@ namespace LawOfficeApp.Services
         }
 
         // Get unpaid invoices
-        public List<Invoice> GetUnpaidInvoices()
+        public async Task<List<Invoice>> GetUnpaidInvoices()
         {
             try
             {
-                return _context.Invoices
+                return await _context.Invoices
                     .Include(i => i.Case)
                     .ThenInclude(c => c.Client)
                     .Where(i => !i.IsPaid)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -115,15 +119,15 @@ namespace LawOfficeApp.Services
         }
 
         // Get paid invoices
-        public List<Invoice> GetPaidInvoices()
+        public async Task<List<Invoice>> GetPaidInvoices()
         {
             try
             {
-                return _context.Invoices
+                return await _context.Invoices
                     .Include(i => i.Case)
                     .ThenInclude(c => c.Client)
                     .Where(i => i.IsPaid)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -133,14 +137,14 @@ namespace LawOfficeApp.Services
         }
 
         // Get invoices by case
-        public List<Invoice> GetInvoicesByCase(int caseId)
+        public async Task<List<Invoice>> GetInvoicesByCase(int caseId)
         {
             try
             {
-                return _context.Invoices
+                return await _context.Invoices
                     .Include(i => i.Case)
                     .Where(i => i.CaseId == caseId)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -150,7 +154,7 @@ namespace LawOfficeApp.Services
         }
 
         // Calculate total revenue
-        public decimal GetTotalRevenue(bool paidOnly = false)
+        public async Task<decimal> GetTotalRevenue(bool paidOnly = false)
         {
             try
             {
@@ -159,7 +163,7 @@ namespace LawOfficeApp.Services
                 if (paidOnly)
                     query = query.Where(i => i.IsPaid);
 
-                return query.Sum(i => i.Amount);
+                return await query.SumAsync(i => i.Amount);
             }
             catch (Exception ex)
             {
@@ -169,11 +173,11 @@ namespace LawOfficeApp.Services
         }
 
         // Delete invoice
-        public bool DeleteInvoice(int id)
+        public async Task<bool> DeleteInvoice(int id)
         {
             try
             {
-                var invoice = _context.Invoices.Find(id);
+                var invoice = await _context.Invoices.FindAsync(id);
                 if (invoice == null)
                 {
                     _eventMediator.RaiseDataChanged("Invoice not found");
@@ -181,7 +185,7 @@ namespace LawOfficeApp.Services
                 }
 
                 _context.Invoices.Remove(invoice);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 _eventMediator.RaiseDataChanged($"Invoice {invoice.InvoiceNumber} deleted");
                 return true;

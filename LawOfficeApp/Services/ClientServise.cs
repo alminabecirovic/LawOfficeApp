@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LawOfficeApp.Data;
 using LawOfficeApp.Models;
+using LawOfficeApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LawOfficeApp.Services
@@ -11,21 +13,24 @@ namespace LawOfficeApp.Services
     {
         private readonly LawOfficeDbContext _context;
         private readonly EventMediator _eventMediator;
+        private readonly IRepository<Client> _clientRepository;
 
-        public ClientService(LawOfficeDbContext context, EventMediator eventMediator)
+        public ClientService(LawOfficeDbContext context, EventMediator eventMediator,
+                           IRepository<Client> clientRepository)
         {
             _context = context;
             _eventMediator = eventMediator;
+            _clientRepository = clientRepository;
         }
 
         // Get all clients
-        public List<Client> GetAllClients()
+        public async Task<List<Client>> GetAllClients()
         {
             try
             {
-                return _context.Clients
+                return await _context.Clients
                     .Include(c => c.Cases)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -35,13 +40,13 @@ namespace LawOfficeApp.Services
         }
 
         // Get client by ID
-        public Client GetClientById(int id)
+        public async Task<Client> GetClientById(int id)
         {
             try
             {
-                return _context.Clients
+                return await _context.Clients
                     .Include(c => c.Cases)
-                    .FirstOrDefault(c => c.Id == id);
+                    .FirstOrDefaultAsync(c => c.Id == id);
             }
             catch (Exception ex)
             {
@@ -51,12 +56,11 @@ namespace LawOfficeApp.Services
         }
 
         // Add new client
-        public bool AddClient(Client client)
+        public async Task<bool> AddClient(Client client)
         {
             try
             {
-                _context.Clients.Add(client);
-                _context.SaveChanges();
+                await _clientRepository.AddAsync(client);
 
                 _eventMediator.RaiseDataChanged($"Client {client.GetFullName()} added successfully");
                 return true;
@@ -69,11 +73,11 @@ namespace LawOfficeApp.Services
         }
 
         // Update client
-        public bool UpdateClient(int id, string newEmail = null, string newPhone = null)
+        public async Task<bool> UpdateClient(int id, string newEmail = null, string newPhone = null)
         {
             try
             {
-                var client = _context.Clients.Find(id);
+                var client = await _context.Clients.FindAsync(id);
                 if (client == null)
                 {
                     _eventMediator.RaiseDataChanged("Client not found");
@@ -86,7 +90,7 @@ namespace LawOfficeApp.Services
                 if (!string.IsNullOrEmpty(newPhone))
                     client.PhoneNumber = newPhone;
 
-                _context.SaveChanges();
+                await _clientRepository.UpdateAsync(client);
 
                 _eventMediator.RaiseDataChanged($"Client {client.GetFullName()} updated");
                 return true;
@@ -99,11 +103,11 @@ namespace LawOfficeApp.Services
         }
 
         // Delete client
-        public bool DeleteClient(int id)
+        public async Task<bool> DeleteClient(int id)
         {
             try
             {
-                var client = _context.Clients.Find(id);
+                var client = await _context.Clients.FindAsync(id);
                 if (client == null)
                 {
                     _eventMediator.RaiseDataChanged("Client not found");
@@ -111,7 +115,7 @@ namespace LawOfficeApp.Services
                 }
 
                 _context.Clients.Remove(client);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 _eventMediator.RaiseDataChanged($"Client {client.GetFullName()} deleted");
                 return true;
@@ -124,16 +128,16 @@ namespace LawOfficeApp.Services
         }
 
         // Search clients
-        public List<Client> SearchClients(string searchTerm)
+        public async Task<List<Client>> SearchClients(string searchTerm)
         {
             try
             {
-                return _context.Clients
+                return await _context.Clients
                     .Include(c => c.Cases)
                     .Where(c => c.FirstName.Contains(searchTerm) ||
                                c.LastName.Contains(searchTerm) ||
                                c.Email.Contains(searchTerm))
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

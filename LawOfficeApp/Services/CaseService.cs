@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LawOfficeApp.Data;
 using LawOfficeApp.Models;
+using LawOfficeApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LawOfficeApp.Services
@@ -11,23 +13,26 @@ namespace LawOfficeApp.Services
     {
         private readonly LawOfficeDbContext _context;
         private readonly EventMediator _eventMediator;
+        private readonly IRepository<Case> _caseRepository;
 
-        public CaseService(LawOfficeDbContext context, EventMediator eventMediator)
+        public CaseService(LawOfficeDbContext context, EventMediator eventMediator,
+                          IRepository<Case> caseRepository)
         {
             _context = context;
             _eventMediator = eventMediator;
+            _caseRepository = caseRepository;
         }
 
         // Get all cases
-        public List<Case> GetAllCases()
+        public async Task<List<Case>> GetAllCases()
         {
             try
             {
-                return _context.Cases
+                return await _context.Cases
                     .Include(c => c.Client)
                     .Include(c => c.Lawyer)
                     .Include(c => c.Documents)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -37,15 +42,15 @@ namespace LawOfficeApp.Services
         }
 
         // Get case by ID
-        public Case GetCaseById(int id)
+        public async Task<Case> GetCaseById(int id)
         {
             try
             {
-                return _context.Cases
+                return await _context.Cases
                     .Include(c => c.Client)
                     .Include(c => c.Lawyer)
                     .Include(c => c.Documents)
-                    .FirstOrDefault(c => c.Id == id);
+                    .FirstOrDefaultAsync(c => c.Id == id);
             }
             catch (Exception ex)
             {
@@ -55,12 +60,11 @@ namespace LawOfficeApp.Services
         }
 
         // Add new case
-        public bool AddCase(Case caseItem)
+        public async Task<bool> AddCase(Case caseItem)
         {
             try
             {
-                _context.Cases.Add(caseItem);
-                _context.SaveChanges();
+                await _caseRepository.AddAsync(caseItem);
 
                 _eventMediator.RaiseDataChanged($"Case {caseItem.CaseTitle} added successfully");
                 return true;
@@ -73,11 +77,11 @@ namespace LawOfficeApp.Services
         }
 
         // Update case status
-        public bool UpdateCaseStatus(int id, CaseStatus newStatus)
+        public async Task<bool> UpdateCaseStatus(int id, CaseStatus newStatus)
         {
             try
             {
-                var caseItem = _context.Cases.Find(id);
+                var caseItem = await _context.Cases.FindAsync(id);
                 if (caseItem == null)
                 {
                     _eventMediator.RaiseDataChanged("Case not found");
@@ -85,7 +89,7 @@ namespace LawOfficeApp.Services
                 }
 
                 caseItem.Status = newStatus;
-                _context.SaveChanges();
+                await _caseRepository.UpdateAsync(caseItem);
 
                 _eventMediator.RaiseDataChanged($"Case status changed to {newStatus}");
                 return true;
@@ -98,12 +102,12 @@ namespace LawOfficeApp.Services
         }
 
         // Assign lawyer to case
-        public bool AssignLawyer(int caseId, int lawyerId)
+        public async Task<bool> AssignLawyer(int caseId, int lawyerId)
         {
             try
             {
-                var caseItem = _context.Cases.Find(caseId);
-                var lawyer = _context.Lawyers.Find(lawyerId);
+                var caseItem = await _context.Cases.FindAsync(caseId);
+                var lawyer = await _context.Lawyers.FindAsync(lawyerId);
 
                 if (caseItem == null || lawyer == null)
                 {
@@ -112,7 +116,7 @@ namespace LawOfficeApp.Services
                 }
 
                 caseItem.LawyerId = lawyerId;
-                _context.SaveChanges();
+                await _caseRepository.UpdateAsync(caseItem);
 
                 _eventMediator.RaiseDataChanged($"Lawyer {lawyer.GetFullName()} assigned to case");
                 return true;
@@ -125,15 +129,15 @@ namespace LawOfficeApp.Services
         }
 
         // Get cases by status
-        public List<Case> GetCasesByStatus(CaseStatus status)
+        public async Task<List<Case>> GetCasesByStatus(CaseStatus status)
         {
             try
             {
-                return _context.Cases
+                return await _context.Cases
                     .Include(c => c.Client)
                     .Include(c => c.Lawyer)
                     .Where(c => c.Status == status)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -143,17 +147,17 @@ namespace LawOfficeApp.Services
         }
 
         // Get upcoming deadlines
-        public List<Case> GetUpcomingDeadlines(int days = 30)
+        public async Task<List<Case>> GetUpcomingDeadlines(int days = 30)
         {
             try
             {
                 var deadline = DateTime.Now.AddDays(days);
-                return _context.Cases
+                return await _context.Cases
                     .Include(c => c.Client)
                     .Include(c => c.Lawyer)
                     .Where(c => c.DeadlineDate <= deadline && c.DeadlineDate >= DateTime.Now)
                     .OrderBy(c => c.DeadlineDate)
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -163,11 +167,11 @@ namespace LawOfficeApp.Services
         }
 
         // Delete case
-        public bool DeleteCase(int id)
+        public async Task<bool> DeleteCase(int id)
         {
             try
             {
-                var caseItem = _context.Cases.Find(id);
+                var caseItem = await _context.Cases.FindAsync(id);
                 if (caseItem == null)
                 {
                     _eventMediator.RaiseDataChanged("Case not found");
@@ -175,7 +179,7 @@ namespace LawOfficeApp.Services
                 }
 
                 _context.Cases.Remove(caseItem);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 _eventMediator.RaiseDataChanged($"Case {caseItem.CaseTitle} deleted");
                 return true;
