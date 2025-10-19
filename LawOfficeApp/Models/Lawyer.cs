@@ -1,6 +1,4 @@
-﻿// ============ MODELS/LAWYER.CS ============
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LawOfficeApp.Models
 {
@@ -12,7 +10,6 @@ namespace LawOfficeApp.Models
         public ICollection<Case> ActiveCases { get; set; } = new List<Case>();
         public decimal HourlyRate { get; set; }
 
-        // Polymorphism - Override
         public override string GetFullName() => $"Atty. {base.GetFullName()} ({Specialization})";
     }
 }

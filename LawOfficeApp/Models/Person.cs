@@ -1,6 +1,4 @@
-﻿// ============ MODELS/PERSON.CS ============
-
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LawOfficeApp.Models
@@ -16,7 +14,6 @@ namespace LawOfficeApp.Models
         public string Email { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        // Polymorphism - Virtual method
         public virtual string GetFullName() => $"{FirstName} {LastName}";
     }
 }

@@ -29,7 +29,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading clients: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading clients: {ex.Message}");
                 return new List<Client>();
             }
         }
@@ -45,7 +45,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading client: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading client: {ex.Message}");
                 return null;
             }
         }
@@ -59,13 +59,11 @@ namespace LawOfficeApp.Services
                 _context.SaveChanges();
 
                 _eventMediator.RaiseDataChanged($"Client {client.GetFullName()} added successfully");
-                _eventMediator.RaiseOperationCompleted(true, "Client added successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error adding client: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error adding client: {ex.Message}");
                 return false;
             }
         }
@@ -78,7 +76,7 @@ namespace LawOfficeApp.Services
                 var client = _context.Clients.Find(id);
                 if (client == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Client not found");
+                    _eventMediator.RaiseDataChanged("Client not found");
                     return false;
                 }
 
@@ -91,13 +89,11 @@ namespace LawOfficeApp.Services
                 _context.SaveChanges();
 
                 _eventMediator.RaiseDataChanged($"Client {client.GetFullName()} updated");
-                _eventMediator.RaiseOperationCompleted(true, "Client updated successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error updating client: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error updating client: {ex.Message}");
                 return false;
             }
         }
@@ -110,7 +106,7 @@ namespace LawOfficeApp.Services
                 var client = _context.Clients.Find(id);
                 if (client == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Client not found");
+                    _eventMediator.RaiseDataChanged("Client not found");
                     return false;
                 }
 
@@ -118,13 +114,11 @@ namespace LawOfficeApp.Services
                 _context.SaveChanges();
 
                 _eventMediator.RaiseDataChanged($"Client {client.GetFullName()} deleted");
-                _eventMediator.RaiseOperationCompleted(true, "Client deleted successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error deleting client: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error deleting client: {ex.Message}");
                 return false;
             }
         }
@@ -143,7 +137,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error searching clients: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error searching clients: {ex.Message}");
                 return new List<Client>();
             }
         }

@@ -1,6 +1,4 @@
-﻿// ============ MODELS/DOCUMENT.CS ============
-
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LawOfficeApp.Models

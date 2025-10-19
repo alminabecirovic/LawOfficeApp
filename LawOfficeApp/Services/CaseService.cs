@@ -31,7 +31,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading cases: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading cases: {ex.Message}");
                 return new List<Case>();
             }
         }
@@ -49,7 +49,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading case: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading case: {ex.Message}");
                 return null;
             }
         }
@@ -62,15 +62,12 @@ namespace LawOfficeApp.Services
                 _context.Cases.Add(caseItem);
                 _context.SaveChanges();
 
-                _eventMediator.RaiseCaseChanged(caseItem, "Added");
                 _eventMediator.RaiseDataChanged($"Case {caseItem.CaseTitle} added successfully");
-                _eventMediator.RaiseOperationCompleted(true, "Case added successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error adding case: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error adding case: {ex.Message}");
                 return false;
             }
         }
@@ -83,22 +80,19 @@ namespace LawOfficeApp.Services
                 var caseItem = _context.Cases.Find(id);
                 if (caseItem == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Case not found");
+                    _eventMediator.RaiseDataChanged("Case not found");
                     return false;
                 }
 
                 caseItem.Status = newStatus;
                 _context.SaveChanges();
 
-                _eventMediator.RaiseCaseChanged(caseItem, "StatusChanged");
                 _eventMediator.RaiseDataChanged($"Case status changed to {newStatus}");
-                _eventMediator.RaiseOperationCompleted(true, $"Case status changed to {newStatus}");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error updating case status: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error updating case status: {ex.Message}");
                 return false;
             }
         }
@@ -113,22 +107,19 @@ namespace LawOfficeApp.Services
 
                 if (caseItem == null || lawyer == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Case or Lawyer not found");
+                    _eventMediator.RaiseDataChanged("Case or Lawyer not found");
                     return false;
                 }
 
                 caseItem.LawyerId = lawyerId;
                 _context.SaveChanges();
 
-                _eventMediator.RaiseLawyerAssigned(lawyer, caseItem);
-                _eventMediator.RaiseCaseChanged(caseItem, "Updated");
-                _eventMediator.RaiseOperationCompleted(true, $"Lawyer {lawyer.GetFullName()} assigned to case");
-
+                _eventMediator.RaiseDataChanged($"Lawyer {lawyer.GetFullName()} assigned to case");
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error assigning lawyer: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error assigning lawyer: {ex.Message}");
                 return false;
             }
         }
@@ -146,7 +137,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading cases: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading cases: {ex.Message}");
                 return new List<Case>();
             }
         }
@@ -166,7 +157,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading deadlines: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading deadlines: {ex.Message}");
                 return new List<Case>();
             }
         }
@@ -179,22 +170,19 @@ namespace LawOfficeApp.Services
                 var caseItem = _context.Cases.Find(id);
                 if (caseItem == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Case not found");
+                    _eventMediator.RaiseDataChanged("Case not found");
                     return false;
                 }
 
                 _context.Cases.Remove(caseItem);
                 _context.SaveChanges();
 
-                _eventMediator.RaiseCaseChanged(caseItem, "Deleted");
                 _eventMediator.RaiseDataChanged($"Case {caseItem.CaseTitle} deleted");
-                _eventMediator.RaiseOperationCompleted(true, "Case deleted successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error deleting case: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error deleting case: {ex.Message}");
                 return false;
             }
         }

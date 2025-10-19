@@ -1,14 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using LawOfficeApp.Data;
+using LawOfficeApp.Services;
 
 namespace LawOfficeApp.MVVM
 {
     public class MainViewModel : ViewModelBase
     {
         private readonly LawOfficeDbContext db;
+        private readonly EventMediator _eventMediator; //posrednik
 
-        // Child ViewModels
         public DashboardViewModel DashboardVM { get; }
         public ClientsViewModel ClientsVM { get; }
         public CasesViewModel CasesVM { get; }
@@ -44,6 +45,14 @@ namespace LawOfficeApp.MVVM
             set => SetProperty(ref _invoicesVisibility, value);
         }
 
+        // Status Message Property
+        private string _statusMessage;
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set => SetProperty(ref _statusMessage, value);
+        }
+
         // Navigation Commands
         public ICommand ShowDashboardCommand { get; }
         public ICommand ShowClientsCommand { get; }
@@ -54,7 +63,10 @@ namespace LawOfficeApp.MVVM
         {
             db = new LawOfficeDbContext();
 
-            // Initialize Child ViewModels
+            //Event
+            _eventMediator = new EventMediator();
+
+            // Prosledjivanje eventa
             DashboardVM = new DashboardViewModel(db);
             ClientsVM = new ClientsViewModel(db);
             CasesVM = new CasesViewModel(db);
@@ -65,6 +77,37 @@ namespace LawOfficeApp.MVVM
             ShowClientsCommand = new RelayCommand(_ => ShowTab("Clients"));
             ShowCasesCommand = new RelayCommand(_ => ShowTab("Cases"));
             ShowInvoicesCommand = new RelayCommand(_ => ShowTab("Invoices"));
+
+            // osluskuj
+            _eventMediator.DataChanged += OnDataChanged;
+        }
+
+        private void OnDataChanged(string message) //servis reaguje
+        {
+            StatusMessage = message;
+
+
+            // Refreshuj podatke na trenutno aktivnom tabu
+            if (DashboardVisibility == Visibility.Visible)
+            {
+                DashboardVM.LoadData();
+            }
+            else if (ClientsVisibility == Visibility.Visible)
+            {
+                ClientsVM.LoadData();
+            }
+            else if (CasesVisibility == Visibility.Visible)
+            {
+                CasesVM.LoadData();
+            }
+            else if (InvoicesVisibility == Visibility.Visible)
+            {
+                InvoicesVM.LoadData();
+            }
+
+            // Opciono: Prikaži MessageBox
+            // MessageBox.Show(message, "Notification", MessageBoxButton.OK, 
+            //     message.Contains("Error") ? MessageBoxImage.Error : MessageBoxImage.Information);
         }
 
         private void ShowTab(string tabName)
@@ -93,6 +136,12 @@ namespace LawOfficeApp.MVVM
                     InvoicesVM.LoadData();
                     break;
             }
+        }
+
+     
+        public void Cleanup()
+        {
+            _eventMediator.DataChanged -= OnDataChanged;
         }
     }
 }

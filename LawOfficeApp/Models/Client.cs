@@ -1,6 +1,4 @@
-﻿// ============ MODELS/CLIENT.CS ============
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LawOfficeApp.Models
 {

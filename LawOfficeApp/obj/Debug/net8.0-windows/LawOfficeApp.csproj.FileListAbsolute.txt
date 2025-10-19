@@ -154,3 +154,4 @@ C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\Cl
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\DashboardView.g.cs
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\InvoicesView.g.cs
 C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\View\InvoicesView.baml
+C:\Users\Dell\Desktop\LawOfficeApp\LawOfficeApp\obj\Debug\net8.0-windows\App.baml

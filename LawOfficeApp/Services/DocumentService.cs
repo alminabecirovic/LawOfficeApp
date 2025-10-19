@@ -29,7 +29,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading documents: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading documents: {ex.Message}");
                 return new List<Document>();
             }
         }
@@ -44,7 +44,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading document: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading document: {ex.Message}");
                 return null;
             }
         }
@@ -56,15 +56,12 @@ namespace LawOfficeApp.Services
                 _context.Documents.Add(document);
                 _context.SaveChanges();
 
-                _eventMediator.RaiseDocumentChanged(document, "Added");
                 _eventMediator.RaiseDataChanged($"Document {document.Title} added successfully");
-                _eventMediator.RaiseOperationCompleted(true, "Document added successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error adding document: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error adding document: {ex.Message}");
                 return false;
             }
         }
@@ -80,7 +77,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading documents: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading documents: {ex.Message}");
                 return new List<Document>();
             }
         }
@@ -97,7 +94,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error searching documents: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error searching documents: {ex.Message}");
                 return new List<Document>();
             }
         }
@@ -109,22 +106,19 @@ namespace LawOfficeApp.Services
                 var document = _context.Documents.Find(id);
                 if (document == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Document not found");
+                    _eventMediator.RaiseDataChanged("Document not found");
                     return false;
                 }
 
                 _context.Documents.Remove(document);
                 _context.SaveChanges();
 
-                _eventMediator.RaiseDocumentChanged(document, "Deleted");
                 _eventMediator.RaiseDataChanged($"Document {document.Title} deleted");
-                _eventMediator.RaiseOperationCompleted(true, "Document deleted successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error deleting document: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error deleting document: {ex.Message}");
                 return false;
             }
         }
@@ -136,7 +130,7 @@ namespace LawOfficeApp.Services
                 var document = _context.Documents.Find(id);
                 if (document == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Document not found");
+                    _eventMediator.RaiseDataChanged("Document not found");
                     return false;
                 }
 
@@ -148,15 +142,12 @@ namespace LawOfficeApp.Services
 
                 _context.SaveChanges();
 
-                _eventMediator.RaiseDocumentChanged(document, "Updated");
                 _eventMediator.RaiseDataChanged($"Document {document.Title} updated");
-                _eventMediator.RaiseOperationCompleted(true, "Document updated successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error updating document: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error updating document: {ex.Message}");
                 return false;
             }
         }

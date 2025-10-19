@@ -30,7 +30,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading invoices: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading invoices: {ex.Message}");
                 return new List<Invoice>();
             }
         }
@@ -47,7 +47,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading invoice: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading invoice: {ex.Message}");
                 return null;
             }
         }
@@ -60,15 +60,12 @@ namespace LawOfficeApp.Services
                 _context.Invoices.Add(invoice);
                 _context.SaveChanges();
 
-                _eventMediator.RaiseInvoiceChanged(invoice, "Added");
                 _eventMediator.RaiseDataChanged($"Invoice {invoice.InvoiceNumber} created successfully");
-                _eventMediator.RaiseOperationCompleted(true, "Invoice created successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error creating invoice: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error creating invoice: {ex.Message}");
                 return false;
             }
         }
@@ -81,7 +78,7 @@ namespace LawOfficeApp.Services
                 var invoice = _context.Invoices.Find(id);
                 if (invoice == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Invoice not found");
+                    _eventMediator.RaiseDataChanged("Invoice not found");
                     return false;
                 }
 
@@ -89,15 +86,12 @@ namespace LawOfficeApp.Services
                 _context.SaveChanges();
 
                 string status = isPaid ? "paid" : "unpaid";
-                _eventMediator.RaiseInvoiceChanged(invoice, "StatusChanged");
                 _eventMediator.RaiseDataChanged($"Invoice marked as {status}");
-                _eventMediator.RaiseOperationCompleted(true, $"Invoice marked as {status}");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error updating invoice: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error updating invoice: {ex.Message}");
                 return false;
             }
         }
@@ -115,7 +109,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading unpaid invoices: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading unpaid invoices: {ex.Message}");
                 return new List<Invoice>();
             }
         }
@@ -133,7 +127,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading paid invoices: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading paid invoices: {ex.Message}");
                 return new List<Invoice>();
             }
         }
@@ -150,7 +144,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error loading invoices: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error loading invoices: {ex.Message}");
                 return new List<Invoice>();
             }
         }
@@ -169,7 +163,7 @@ namespace LawOfficeApp.Services
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error calculating revenue: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error calculating revenue: {ex.Message}");
                 return 0;
             }
         }
@@ -182,22 +176,19 @@ namespace LawOfficeApp.Services
                 var invoice = _context.Invoices.Find(id);
                 if (invoice == null)
                 {
-                    _eventMediator.RaiseOperationCompleted(false, "Invoice not found");
+                    _eventMediator.RaiseDataChanged("Invoice not found");
                     return false;
                 }
 
                 _context.Invoices.Remove(invoice);
                 _context.SaveChanges();
 
-                _eventMediator.RaiseInvoiceChanged(invoice, "Deleted");
                 _eventMediator.RaiseDataChanged($"Invoice {invoice.InvoiceNumber} deleted");
-                _eventMediator.RaiseOperationCompleted(true, "Invoice deleted successfully");
-
                 return true;
             }
             catch (Exception ex)
             {
-                _eventMediator.RaiseOperationCompleted(false, $"Error deleting invoice: {ex.Message}");
+                _eventMediator.RaiseDataChanged($"Error deleting invoice: {ex.Message}");
                 return false;
             }
         }
